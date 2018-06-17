@@ -1,11 +1,13 @@
-resource "azurerm_virtual_machine" "rancher_vm_o1" {
+resource "azurerm_virtual_machine" "rancher_vm" {
+  count = "${length(local.vmlist)}"
+
   location = "westeurope"
-  name = "rancher_vm_o1"
-  network_interface_ids = ["${azurerm_network_interface.rancher_nic_o1.id}"]
+  name = "rancher_vm_${element(local.vmlist, count.index)}"
+  network_interface_ids = ["${element(azurerm_network_interface.rancher_nic.*.id, count.index)}"]
   resource_group_name = "${azurerm_resource_group.rancher_rg.name}"
   "storage_os_disk" {
     create_option = "FromImage"
-    name = "rancher_vm_o1_os_disk"
+    name = "rancher_vm_${element(local.vmlist, count.index)}_os_disk"
     caching = "ReadWrite"
     managed_disk_type = "Standard_LRS"
   }
@@ -17,7 +19,7 @@ resource "azurerm_virtual_machine" "rancher_vm_o1" {
   }
   os_profile {
     admin_username = "radmin"
-    computer_name = "rancherm1"
+    computer_name = "rancher${element(local.vmlist, count.index)}"
   }
   os_profile_linux_config {
     disable_password_authentication = true
