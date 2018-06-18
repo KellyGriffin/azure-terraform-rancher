@@ -1,3 +1,13 @@
+resource "azurerm_availability_set" "rancher_avail_set" {
+  location = "westeurope"
+  name = "rancher_avail_set"
+  managed = true
+  resource_group_name = "${azurerm_resource_group.rancher_rg.name}"
+  tags {
+    environment = "Rancher Demo"
+  }
+}
+
 resource "azurerm_virtual_machine" "rancher_vm" {
   count = "${length(local.vmlist)}"
 
@@ -33,6 +43,7 @@ resource "azurerm_virtual_machine" "rancher_vm" {
     storage_uri = "${azurerm_storage_account.rancher_storage_account.primary_blob_endpoint}"
   }
   vm_size = "Standard_B2s"
+  availability_set_id = "${substr(element(local.vmlist, count.index), 0, 1) == "m" ? azurerm_availability_set.rancher_avail_set.id : ""}"
   tags {
     environment = "Rancher Demo"
   }
