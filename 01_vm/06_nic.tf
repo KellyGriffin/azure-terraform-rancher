@@ -6,6 +6,7 @@ resource "azurerm_network_interface" "rancher_nic" {
     private_ip_address_allocation = "dynamic"
     subnet_id = "${azurerm_subnet.rancher_k8s_subnet.id}"
     public_ip_address_id = "${element(local.vmlist, count.index) == "m1" ? azurerm_public_ip.rancher_oper_public_ip.id : ""}"
+    load_balancer_backend_address_pools_ids = ["${compact(list(substr(element(local.vmlist, count.index), 0, 1) == "m" ? azurerm_lb_backend_address_pool.rancher_master_lb_addr_pool.id : ""))}"]
   }
   location = "westeurope"
   name = "rancher_nic_${element(local.vmlist, count.index)}"
