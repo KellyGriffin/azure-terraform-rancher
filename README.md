@@ -30,4 +30,5 @@ See [Create a complete Linux virtual machine infrastructure in Azure with Terraf
 - [Linux 仮想マシンで Azure カスタム スクリプト拡張機能 v2 を使用する](https://docs.microsoft.com/ja-jp/azure/virtual-machines/extensions/custom-script-linux)
 
 ## Miscellaneous
+- [Azure:名前付け規則](https://docs.microsoft.com/ja-jp/azure/architecture/best-practices/naming-conventions)
 - [マルチクラウド対応「Terraform」で、ITインフラを簡単にプロビジョニングしよう](https://hashicorp.connpass.com/event/89569/presentation/)
